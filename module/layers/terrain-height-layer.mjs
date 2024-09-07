@@ -205,7 +205,7 @@ export class TerrainHeightLayer extends InteractionLayer {
 	 */
 	async #useTool(x, y, tool = undefined) {
 		/** @type {[number, number]} */
-		const cell = game.canvas.grid.grid.getGridPositionFromPixels(x, y);
+		const cell = game.canvas.grid.getGridPositionFromPixels(x, y);
 
 		switch (tool ?? this._pendingTool) {
 			case tools.paint: {

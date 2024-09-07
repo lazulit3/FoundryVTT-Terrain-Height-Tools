@@ -894,7 +894,7 @@ export class HeightMap {
 			for (const neighbor of this.#getNeighboringFillCells(...nextCell)) {
 
 				// Get the position of the cell, ignoring it if it falls off the canvas
-				const [x, y] = game.canvas.grid.grid.getPixelsFromGridPosition(...neighbor);
+				const [x, y] = game.canvas.grid.getPixelsFromGridPosition(...neighbor);
 				if (x + game.canvas.grid.w < 0) continue; // left
 				if (x >= canvasWidth) continue; // right
 				if (y + game.canvas.grid.h < 0) continue; // top
@@ -912,7 +912,7 @@ export class HeightMap {
 		// For hex grids, we can use the default implementation, but for square cells the default returns all 8 cells,
 		// but for filling purposes we only want the 4 orthogonal.
 		if (game.canvas.grid.isHex)
-			return game.canvas.grid.grid.getNeighbors(x, y);
+			return game.canvas.grid.getNeighbors(x, y);
 
 		return [
 			[x, y - 1],

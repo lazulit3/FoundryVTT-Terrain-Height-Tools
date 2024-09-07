@@ -399,7 +399,7 @@ export class LineOfSightRulerLayer extends CanvasLayer {
 		// Otherwise, snap to nearest cell center OR cell corner (whichever is closer):
 
 		// Work out the center of the hovered cell and the points of the hex/square around the cell
-		const [row, col] = game.canvas.grid.grid.getGridPositionFromPixels(x, y);
+		const [row, col] = game.canvas.grid.getGridPositionFromPixels(x, y);
 
 		const snapPoints = [
 			getGridCenter(row, col),

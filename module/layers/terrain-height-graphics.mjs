@@ -239,7 +239,7 @@ export class TerrainHeightGraphics extends PIXI.Container {
 		const testPoints = [...new Set(labelPositionAnchors
 			.map(y => y * shape.polygon.boundingBox.h + shape.polygon.boundingBox.y1)
 			.map(y => [CONST.GRID_TYPES.SQUARE, CONST.GRID_TYPES.HEXEVENR, CONST.GRID_TYPES.HEXODDR].includes(game.canvas.grid.type)
-				? canvas.grid.grid.getCenter(shape.polygon.boundingBox.xMid, y)[1]
+				? canvas.grid.getCenter(shape.polygon.boundingBox.xMid, y)[1]
 				: y))];
 
 		let widestPoint = { y: 0, x: 0, width: -Infinity };
@@ -266,7 +266,7 @@ export class TerrainHeightGraphics extends PIXI.Container {
 			const testPoints = [...new Set(labelPositionAnchors
 				.map(x => x * shape.polygon.boundingBox.w + shape.polygon.boundingBox.x1)
 				.map(x => [CONST.GRID_TYPES.SQUARE, CONST.GRID_TYPES.HEXEVENQ, CONST.GRID_TYPES.HEXODDQ].includes(game.canvas.grid.type)
-					? canvas.grid.grid.getCenter(x, shape.polygon.boundingBox.yMid)[0]
+					? canvas.grid.getCenter(x, shape.polygon.boundingBox.yMid)[0]
 					: x))];
 
 			let tallestPoint = { y: 0, x: 0, height: -Infinity };

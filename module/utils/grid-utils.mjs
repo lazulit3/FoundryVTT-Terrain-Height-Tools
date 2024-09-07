@@ -15,7 +15,7 @@ export function getGridCellPolygon(row, col) {
 	}
 
 	// Can get the points for a square grid easily
-	const [x, y] = game.canvas.grid.grid.getPixelsFromGridPosition(row, col);
+	const [x, y] = game.canvas.grid.getPixelsFromGridPosition(row, col);
 	const { w, h } = game.canvas.grid;
 	return [
 		{ x, y },
@@ -49,7 +49,7 @@ export function getGridCenter(row, col) {
  * @returns {number[]}
  */
 function getHexPolyAligned(row, col, points = undefined) {
-	const grid = canvas.grid.grid;
+	const grid = canvas.grid;
 	const gridPos = HexagonalGrid.offsetToPixels({ row, col }, grid.options);
 	const rightGridPos = HexagonalGrid.offsetToPixels({ row, col: col + 1 }, grid.options);
 	const belowGridPos = HexagonalGrid.offsetToPixels({ row: row + 1, col }, grid.options);
@@ -86,8 +86,8 @@ export function getGridVerticesFromToken(token) {
 	// For hex grids, use the getBorderPolygon method
 	if (game.canvas.grid.isHex) {
 		const pointsFlat = game.modules.get("hex-size-support")?.api?.isAltOrientation(token) === true
-			? canvas.grid.grid.getAltBorderPolygon(width, height, 0)
-			: canvas.grid.grid.getBorderPolygon(width, height, 0);
+			? canvas.grid.getAltBorderPolygon(width, height, 0)
+			: canvas.grid.getBorderPolygon(width, height, 0);
 		return pointArrayToObjects(pointsFlat, x, y);
 	}
 
