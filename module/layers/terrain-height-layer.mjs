@@ -54,7 +54,7 @@ export class TerrainHeightLayer extends InteractionLayer {
 
 	/** @override */
 	static get layerOptions() {
-		return mergeObject(super.layerOptions, {
+		return foundry.utils.mergeObject(super.layerOptions, {
 			baseClass: InteractionLayer,
 			zIndex: 300
 		});

@@ -16,7 +16,7 @@ export class TerrainHeightPalette extends withSubscriptions(Application) {
 
 	/** @override */
 	static get defaultOptions() {
-		return mergeObject(super.defaultOptions, {
+		return foundry.utils.mergeObject(super.defaultOptions, {
 			title: game.i18n.localize("TERRAINHEIGHTTOOLS.PaletteTitle"),
 			id: "tht_terrainHeightPalette",
 			classes: [...(super.defaultOptions.classes ?? []), "terrain-height-tool-window"],
