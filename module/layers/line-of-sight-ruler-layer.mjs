@@ -3,7 +3,7 @@ import { moduleName, settings, socketFuncs, socketName, tools } from "../consts.
 import { HeightMap } from "../geometry/height-map.mjs";
 import { LineSegment } from "../geometry/line-segment.mjs";
 import { Polygon } from "../geometry/polygon.mjs";
-import { getGridCellPolygon, getGridCenter, getGridVerticesFromToken } from "../utils/grid-utils.mjs";
+import { getGridVerticesFromToken } from "../utils/grid-utils.mjs";
 import { prettyFraction } from "../utils/misc-utils.mjs";
 import { drawDashedPath } from "../utils/pixi-utils.mjs";
 import { Signal } from "../utils/signal.mjs";
@@ -357,9 +357,9 @@ export class LineOfSightRulerLayer extends CanvasLayer {
 	#onMouseDown = event => {
 		if (!this.isToolSelected || event.button !== 0) return;
 
-		const [x, y] = this.#getDragPosition(event);
-		this._rulerStartPoint$.value = { x, y };
-		this._rulerEndPoint$.value = { x, y };
+		const point = this.#getDragPosition(event);
+		this._rulerStartPoint$.value = point;
+		this._rulerEndPoint$.value = point;
 	};
 
 	#onMouseMove = event => {
@@ -368,7 +368,7 @@ export class LineOfSightRulerLayer extends CanvasLayer {
 		if (!this.isToolSelected) return;
 
 		// Get the drag position, which may include snapping
-		const [x, y] = this.#getDragPosition(event);
+		const { x, y } = this.#getDragPosition(event);
 
 		// Position the height indicator and update the text if it's visible
 		if (this.#lineStartIndicator.visible) {
@@ -387,31 +387,20 @@ export class LineOfSightRulerLayer extends CanvasLayer {
 		this._rulerStartPoint$.value = this._rulerEndPoint$.value = undefined;
 	};
 
-	/** @returns {[number, number]} */
+	/** @returns {{ x: number; y: number }} */
 	#getDragPosition(event) {
 		/** @type {{ x: number; y: number }} */
 		const { x, y } = this.toLocal(event.data.global);
 
 		// Holding shift disabling snapping
 		const snap = !game.keyboard.isModifierActive(KeyboardManager.MODIFIER_KEYS.SHIFT);
-		if (!snap) return [x, y];
+		if (!snap) return { x, y };
 
 		// Otherwise, snap to nearest cell center OR cell corner (whichever is closer):
-
-		// Work out the center of the hovered cell and the points of the hex/square around the cell
-		const [row, col] = game.canvas.grid.getGridPositionFromPixels(x, y);
-
-		const snapPoints = [
-			getGridCenter(row, col),
-			...getGridCellPolygon(row, col)
-		];
-
-		// Of all these points, find the one closest to the mouse
-		const nearestSnapPoint = snapPoints
-			.map(({ x: x2, y: y2 }) => [x2, y2, Math.pow(x2 - x, 2) + Math.pow(y2 - y, 2)])
-			.sort((a, b) => a[2] - b[2])[0];
-
-		return [nearestSnapPoint[0], nearestSnapPoint[1]];
+		return game.canvas.grid.getSnappedPoint({ x, y }, {
+		  mode: CONST.GRID_SNAPPING_MODES.CENTER | CONST.GRID_SNAPPING_MODES.VERTEX,
+			resolution: 1,
+		});
 	}
 
 	/** @param {number} delta  */

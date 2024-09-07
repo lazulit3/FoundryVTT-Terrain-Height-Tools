@@ -26,20 +26,6 @@ export function getGridCellPolygon(row, col) {
 }
 
 /**
- * Returns a the coordinates of the center of the grid cell at the given position.
- * @param {number} row
- * @param {number} col
- * @returns {{ x: number; y: number }}
- */
-export function getGridCenter(row, col) {
-	return getGridCellPolygon(row, col)
-		.reduce((acc, cur, idx) => ({
-			x: acc.x + (cur.x - acc.x) / (idx + 1),
-			y: acc.y + (cur.y - acc.y) / (idx + 1)
-		}));
-}
-
-/**
  * Foundry's default hex grid implementation does not perfectly align the vertices of the grid polygons: It is within
  * a few tenths of a pixel, which looks fine visually but causes rounding and snapping problems with the LOS calcs.
  * So this method creates hex polygons of the given size in a way that makes the vertices align perfectly.
